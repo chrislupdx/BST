@@ -10,12 +10,22 @@
 
 struct song
 {
+    //The default constructor 
     song();
+  
+    //Overloaded constructor/copy constructor
     song(char * artist_toadd, char * title_toadd, char * album_toadd, char * key1_toadd, char * key2_toadd, char * key3_toadd, char * description_toadd);
+   
+    //Default constructor
     ~song();
+
+    //This function displays the struct's parms
     int displayInfo();
+
+    //This function copies the parm into operand.  Used a lot!
     int copySong(song & songToadd);
 
+    //Data items
     char * artist;
     char * songN;
     char * album;

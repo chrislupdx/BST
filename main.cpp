@@ -1,5 +1,7 @@
 //Prog3
-//This is the implementation of the interface file for prorgram 3
+//This is the implementation of the interface file for prorgram 3.  This file includes a series of functions:
+//they call ADT functions and otherwise manage cin and cout syntax.
+///Main.cpp
 #include "table.h" 
 #include <iostream>
 #include <fstream>
@@ -8,16 +10,25 @@ using namespace std;
 
 //This function makes a song and inserts it into the hashtable
 int makeSong(table & songTable);
-int deleteArtist(table & songTable);  //houses user propmpts for deleting an artist
+
+//Houses user prompts for deleting an artist
+int deleteArtist(table & songTable);
+
+//Houses user prompts for querying the table
 int querySong(table & songTable);
+
+//Parses text into song structs, then inserts those songs into a table
 int readFile(song *& songs);
+
+//Calls the displaySearch function (which does a title search in the table, displaying the song's values)
 int displaySearchWrapper(table & songTable);
+
 int main()
 {
     cout << "Program 3: Playlists" << endl;
 
-    table songTable; 
-    int size = 60;                  //This sets the number the # of song structs created and lines parsed from the textfile
+    table songTable; //table songTable = new table(size);
+    int size = 40;                  //This sets the number the # of song structs created and lines parsed from the textfile
     song * songs = new song[size];  
     songTable.readFile(songs, size);      
     songTable.displayAll();
@@ -39,7 +50,7 @@ int main()
         {
             cout << "Deleting artist: " << endl;
             deleteArtist(songTable);
-            songTable.displayAll();    //it's cool we're getting a different set of songs but from where
+            songTable.displayAll();
             cout << "Choices: " << endl;
             cout << "1. Delete an artist" << endl;
             cout << "2. Search for a title" << endl;
@@ -56,7 +67,6 @@ int main()
             displaySearchWrapper(songTable);
             cout << endl;
 
-            // songTable.displayAll();    //it's cool we're getting a different set of songs but from where
             cout << "Choices: " << endl;
             cout << "1. Delete an artist" << endl;
             cout << "2. Search for a title" << endl;
@@ -136,13 +146,10 @@ int querySong(table & songTable)
     cin.ignore(100, '\n'); cout << endl;
 
     song found_song;
-
-    //ewww if we have 3 tables do we just display all 3 tables
     songTable.retrieveSong(song_toq, found_song); 
     return 1;
 }
 
-//will need to take in all 3 tables
 int deleteArtist(table & songTable)
 {
     char artist_todelete[20];
@@ -153,7 +160,7 @@ int deleteArtist(table & songTable)
         cout << "Artist name? " << endl;
         cin.get(artist_todelete, 100, '\n');
         cin.ignore(100, '\n'); cout << endl;
-        songTable.removeArtistTracks(artist_todelete); //deletes at all 3 tables
+        songTable.removeArtistTracks(artist_todelete);
 
         cout << "Delete another artist? y/n " << endl;
         char answer;
@@ -170,8 +177,6 @@ int deleteArtist(table & songTable)
     return 1;
 }
 
-//Prompts user for song info fields, ONLY adds to
-//songTable see line 95
 int makeSong(table & songTable)
 {
     bool done = false;
@@ -215,11 +220,11 @@ int makeSong(table & songTable)
         char * keyval = new char[strlen(title_toadd) + 1];
         strcpy(keyval, title_toadd);
 
-        song * songtoadd = new song(artist_toadd, title_toadd, album_toadd, key1_toadd, key2_toadd, key3_toadd, description_toadd);
+        song * songtoadd = new song(artist_toadd, title_toadd, album_toadd, key1_toadd, key2_toadd, key3_toadd, description_toadd); //calls an copy constructor
 
-        songTable.insertSong(title_toadd, *songtoadd);  //double check we're idnexing right
+        songTable.insertSong(title_toadd, *songtoadd);  //we're indexing by song name
 
-        cout << "Add another song? y/n" << endl; //endless looping check p2 loop
+        cout << "Add another song? y/n" << endl;
         char answer;
         cin >> answer;
         cin.ignore(100, '\n');
@@ -228,7 +233,7 @@ int makeSong(table & songTable)
             done = true;
         }
     }
-    while(done == false); //weird
+    while(done == false); 
 
     return 1;
 };

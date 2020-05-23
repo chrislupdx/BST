@@ -8,7 +8,7 @@
 class table
 {
     public:
-        table(int size=293); //change the table size soon
+        table(int size = 293); //change the table size soon
         ~table();
 
         //This hash function adds the ASCII values of the keys together before modding it (check if moddding)

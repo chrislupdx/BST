@@ -1,14 +1,18 @@
-//This is the implementaiton of the table node. These
-//are the nodes that will store individuals song's indices
-//and a pointer to 
+//Chris Lu
+//Project 3
+//Tablenode.h
+//This is the implementaiton of the .h file for the tablenode struct
+
 
 #include "song.h"
 
 struct tNode
 {
-   tNode();
-   ~tNode();
-    
+    //Default constructor
+    tNode();
+    //Default destructor
+    ~tNode();
+
     song * songInfo;
     tNode * next;
 };

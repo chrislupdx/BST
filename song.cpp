@@ -6,6 +6,7 @@
 
 #include "song.h"
 
+//This is the default constructor for song
 song::song()
 {
     artist = nullptr;
@@ -16,6 +17,7 @@ song::song()
     description = nullptr;
 }
 
+//This is a copy function/overloaded constructor for song
 song::song(char * artist_toadd, char * title_toadd, char * album_toadd, char * key1_toadd, char * key2_toadd, char * key3_toadd, char * description_toadd)
 {
     artist = nullptr;
@@ -46,9 +48,9 @@ song::song(char * artist_toadd, char * title_toadd, char * album_toadd, char * k
 
     this->description = new char[strlen(description_toadd) + 1];
     strcpy(this->description, description_toadd);
-
 }
 
+//This is the default destructor
 song::~song()
 {
     if(artist)
@@ -67,9 +69,9 @@ song::~song()
         delete [] description;
 }
 
+//This function prints the song's data members
 int song::displayInfo()
 {
-    //song isn't okay what
     std::cout << std::endl << "Artist: " << artist << std::endl;
     std::cout << "Song:" << songN << std::endl;
     std::cout << "album: " << album << std::endl;
@@ -92,7 +94,7 @@ int song::copySong(song & songToadd)
     album = new char[strlen(songToadd.album) + 1];
     strcpy(album, songToadd.album);
 
-    key1 = new char[strlen(songToadd.key1) + 1]; //Artist
+    key1 = new char[strlen(songToadd.key1) + 1]; 
     strcpy(key1, songToadd.key1);
 
     key2 = new char[strlen(songToadd.key2) + 1]; 

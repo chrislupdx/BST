@@ -1,6 +1,7 @@
-//CHris Lu //Project 3
+//Chris Lu //Project 3
 //Table.cpp
 //This is the implementation of the .cpp file for the hash table ADT
+
 #include "table.h"
 using namespace std;
 
@@ -15,6 +16,7 @@ table::table(int size)
     }
 }
 
+//Default destructor
 table::~table()
 {
     for(int i = 0; i < hash_table_size; i++)
@@ -26,6 +28,8 @@ table::~table()
     hash_table_size = 0;
 }
 
+//This function recursively traverses a chain, leveraging song's 
+//print function on each recursive call
 int table::displayMatches(tNode * head)
 {
     if(!head) return 0;
@@ -37,8 +41,8 @@ int table::displayMatches(tNode * head)
     return 1;
 }
 
-//display all matches for a search key
-int table::displaySearch(char * sK) //would be cool to specify
+//display all matches for a search key (user input)
+int table::displaySearch(char * sK)
 {
     int searchI = hash_function(sK);
     tNode * head = hash_table[searchI];
@@ -60,6 +64,7 @@ int table::displaySearch(char * sK) //would be cool to specify
     return 1;
 }
 
+//This hash function concanetates the ascii value of each character in the given string
 int table::hash_function(char *key) const
 {
     int hash = 0;
@@ -68,22 +73,21 @@ int table::hash_function(char *key) const
     {
         hash =+ key[i];
     }
-    //std::cout << "hash is " << hash << std::endl; //remove at some point
     return hash;
 }
 
-//this is the interface function
+//this is the interface function for insertion.
 int table::insertSong(char * key_val, song & song_toadd)
 {
     int i = hash_function(key_val) % hash_table_size; 
     
-    tNode * temp = hash_table[i]; //hold onto the old part //segfaulting?
+    tNode * temp = hash_table[i]; //hold onto the old part
     if(!hash_table[i]) //if empty
     {
     hash_table[i] = new tNode;
     hash_table[i]->songInfo->copySong(song_toadd);
     }
-    else                //else
+    else                //else (if not empty)
     {
     hash_table[i] = new tNode;
     hash_table[i]->songInfo->copySong(song_toadd);
@@ -163,7 +167,7 @@ int table::removeFChain(char * artist_to_find, tNode *& head)
     if(!head) return 0;
     if(strcmp(artist_to_find, head->songInfo->artist) == 0) 
     {
-        tNode * temp = head->next; //bc we head->next
+        tNode * temp = head->next;
         delete head;
         head = temp;
         return removeFChain(artist_to_find, head); //this is traversal
@@ -174,7 +178,6 @@ int table::removeFChain(char * artist_to_find, tNode *& head)
 //parses the file into song structs, then inserts them into the table
 int table::readFile(song *& songs, int size) //songs is an array
 {
-    //int index = 0; //index has a max of 150
     int SIZE = 100; //line item is n number of chars
     int DESCSIZE = 900;
     ifstream inFile;
@@ -185,7 +188,7 @@ int table::readFile(song *& songs, int size) //songs is an array
     {
         int count = 0;
         char eof = inFile.peek();
-        while((!inFile.eof()) && (eof != -1) && (count < size))  //without the counter
+        while((!inFile.eof()) && (eof != -1) && (count < size)) 
         {
             char tempfile[100];
             inFile.get(tempfile, SIZE, '|');  
@@ -215,7 +218,6 @@ int table::readFile(song *& songs, int size) //songs is an array
             inFile.get(tempDesc, DESCSIZE, '\n'); inFile.ignore(10, '\n');
 
             song newsong(tempfile, temptitle, tempAlbum, tempKey1, tempKey2, tempKey3, tempDesc); //temptitle==song name, tempfile==artist
-            //without count, we'll end up inserting into junk 
             insertSong(temptitle, newsong);  //we are using the song titles as keys
 
             eof = inFile.peek();
