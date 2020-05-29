@@ -1,5 +1,5 @@
 //Chris Lu
-//Project #3
+//Project #4
 //song.cpp
 //This is the implementation of the .cpp file for a song struct. 
 //This data structure exists to store song data.
@@ -9,6 +9,7 @@
 //This is the default constructor for song
 song::song()
 {
+    songN = nullptr;
     artist = nullptr;
     album = nullptr;
     key1 = nullptr;
@@ -20,15 +21,15 @@ song::song()
 //This is a copy function/overloaded constructor for song
 song::song(char * artist_toadd, char * title_toadd, char * album_toadd, char * key1_toadd, char * key2_toadd, char * key3_toadd, char * description_toadd)
 {
-    artist = nullptr;
     songN = nullptr;
+    artist = nullptr;
     album = nullptr;
     key1 = nullptr;
     key2 = nullptr;
     key3 = nullptr;
     description = nullptr;
-
-    this->artist = new char[strlen(artist_toadd) + 1]; 
+    
+    this->artist = new char[strlen(artist_toadd) + 1];  //this->artist == artist here
     strcpy(this->artist, artist_toadd);
 
     this->songN = new char[strlen(title_toadd) +1];
@@ -54,19 +55,40 @@ song::song(char * artist_toadd, char * title_toadd, char * album_toadd, char * k
 song::~song()
 {
     if(artist)
+    {
         delete [] artist;
-    if(songN)
-        delete [] songN;
+        artist = NULL; //curly braces pls
+    } 
+     if(songN)
+     { 
+         delete [] songN;
+         songN = NULL;
+     }    
     if(album)
+    {
         delete [] album;
+        album = NULL;
+    }
     if(key1)
+    {
         delete [] key1;
+        key1 = NULL; 
+    } 
     if(key2)
+    { 
         delete [] key2;
+        key2 = NULL;
+    }
     if(key3)
+    {
         delete [] key3;
-    if(description)
+        key3 = NULL;
+    } 
+        if(description)
+        {
         delete [] description;
+        description = NULL;
+        }
 }
 
 //This function prints the song's data members
@@ -108,3 +130,19 @@ int song::copySong(song & songToadd)
 
     return 1;
 }
+
+int song::compareArtist(song *& song_tocheck)
+{
+    if(strcmp(artist, song_tocheck->artist) == 0)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+//copy constructor!!!
+song::song(song & songToadd)
+{
+    song(songToadd.artist, songToadd.songN, songToadd.album, songToadd.key1, songToadd.key2, songToadd.key3, songToadd.description);
+}
+

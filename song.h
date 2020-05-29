@@ -13,9 +13,12 @@ struct song
     //The default constructor 
     song();
   
-    //Overloaded constructor/copy constructor
+    //Overloaded constructor
     song(char * artist_toadd, char * title_toadd, char * album_toadd, char * key1_toadd, char * key2_toadd, char * key3_toadd, char * description_toadd);
-   
+
+    //copy consturctor takes an object and fills it with the appropriate 
+    song(song & songToadd); //needs to be implemented
+
     //Default constructor
     ~song();
 
@@ -23,7 +26,11 @@ struct song
     int displayInfo();
 
     //This function copies the parm into operand.  Used a lot!
-    int copySong(song & songToadd);
+    int copySong(song & songToadd); 
+
+    //This function compares the pram to the opereand
+    int compareArtist(song *& song_tocheck);
+    //int compareTitle(char *& song_tocheck);
 
     //Data items
     char * artist;
