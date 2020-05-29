@@ -16,6 +16,45 @@ tree::~tree()
     this->removeAll();
 }
 
+//this is a wrapper function?? (plualizes it?)
+int tree::removeArtist(char * key)
+{
+    if(!root) return 0; 
+    removeArtist(root, key);
+    return 1;
+}
+
+//a single removal
+int tree::removeArtist(tNode *& root, char * key)
+{
+    if(!root)
+    {
+        return 0;
+    }
+    else if(!root->left && !root->right) //a leaf
+    {
+        delete root;
+        root = NULL;
+    }
+    
+    else if(!root->left) //1 child
+    {
+        //parent adopts the child
+    }
+    else if(!root->right) //1 child
+    {
+        //parent adopts the child
+    }
+    else                //2 children
+    {
+        //if the right child has no left
+        //else go through the 
+    }
+    
+    return 1; //delete later
+}
+
+
 //recursive call, returns the # of nodes
 int tree::removeAll(tNode *& root)
 {
@@ -28,11 +67,12 @@ int tree::removeAll(tNode *& root)
 
     return val;
 }
-
+    
+//In order successor should be the smallest item in the right subtree
 int tree::ios(tNode * tree, tNode * returnVal)
 {
     if(!tree) return 0;
-    if(!tree->left)
+    if(!tree->left) //when we have reached the smallest
     {
         returnVal = tree->left;
     }
@@ -79,10 +119,14 @@ int tree::insert(tNode *& root, song & song_toadd)
 int tree::displayAll()
 {
     std::cout << "displayall" << std::endl;
-    return displayAll(root);
+     displayAll(root);
+     std::cout << "done" << std::endl;
+     return 1;
 }
 
 
+//having some troubl with bigger vals:q
+//
 int tree::displayAll(tNode *& root)  
 {
     if(!root) return 0;
@@ -154,10 +198,10 @@ int tree::displayByKey(char * key_tosearch)
     return 1;    
 }
 
+//recursive
 int tree::displayByKey(tNode * root, char * searchKey)
 {
     if(!root) return 0; //if leaf
-    //let's to in-order: left, - then visit - then right
 
     int count = displayByKey(root->left, searchKey);
     int isMatching = strcmp(root->songData->artist, searchKey);
@@ -165,8 +209,6 @@ int tree::displayByKey(tNode * root, char * searchKey)
     {
     root->songData->displayInfo();
     }
-    displayByKey(root->left, searchKey);
-
     return count + displayByKey(root->right, searchKey);
 }
 

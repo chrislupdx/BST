@@ -1,5 +1,5 @@
 //Chris Lu
-//Project 3
+//Project 4
 //Tree.h
 //this is the implementation of the .h file for a binary search tree
 #include "song.h"
@@ -44,7 +44,7 @@ class tree
         //Displays all found/matching artists
         int displayByKey(char * key_tosearch);
 
-        //Removes all artists
+        //Removes all artists UNIFINISHED
         int removeArtist(char * key);
         
         //get_height
@@ -52,10 +52,11 @@ class tree
 
     private:
         tNode * root;
-        
 
         //for finding the in order successor
         int ios(tNode * tree, tNode * returnVal);
+
+        int removeArtist(tNode *& root, char * key);
         
         //UNIFINISHED 
         int retrieveByKeyAll(tNode *root, char *, tree & foundSongs);

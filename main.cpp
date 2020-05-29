@@ -6,26 +6,36 @@ using namespace std;
 int makeSong(tree & songTree);
 int retrieve(tree & songTree); //will this be awful to just pass by value
 int displayFoundKey(tree & songTree);
-//removeByArist
+int removeByArtist(tree & songTree);
 //getheight
 //isefficient
 int main() 
 {
     tree niceTree;
-    int size = 40; //still has limitations
+    int size = 1; //still has limitations
     song ** songs = new song *[size];
     niceTree.readFile(songs, size); //i think we're hardcoding the txtfile address
 
     niceTree.displayAll();
   
-    makeSong(niceTree); 
+    //makeSong(niceTree); 
     
-    niceTree.displayAll();
-    retrieve(niceTree);
-    //niceTree.displayAll(); 
+ //   niceTree.displayAll();
+//    retrieve(niceTree);
+  //  displayFoundKey(niceTree);
+    removeByArtist(niceTree); 
+   niceTree.displayAll(); 
+    return 1;
+}
 
-    displayFoundKey(niceTree);
-
+int removeByArtist(tree & songTree)
+{
+   char to_delete[20]; 
+    cout << "Remove artist" << endl;
+    cout << "Enter artist to remove" << endl;
+    cin.get(to_delete, 100, '\n');
+    songTree.removeArtist(to_delete);
+    cout << "did" << endl;    
     return 1;
 }
 
@@ -59,7 +69,7 @@ int retrieve(tree & songTree)
     bool done = false;
     do
     {
-        songTree.displayAll();
+       // songTree.displayAll();
 
         song foundval; 
         char key_tosearch[20];
