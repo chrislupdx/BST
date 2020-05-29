@@ -3,6 +3,7 @@
 //Tree.h
 //this is the implementation of the .h file for a binary search tree
 #include "song.h"
+#include <fstream>
 
 struct tNode
 {
@@ -25,24 +26,46 @@ class tree
         //maybe an orloaded copy constructor?
         ~tree();
 
+        //for reading files
+        int readFile(song **&songs, int size);
+
         //insert stuff we need to do 
         int insert(song & song); 
 
         //displays in order of smallest to largest
         int displayAll();  
 
-        //to match artist? any fucking field?
-        int retrieveByKey(char * key_tosearch, song & foundSong);  //wrapper
-        
+        //Returns the first matching track
+        int retrieveByKey(char * key_tosearch, song & foundval); 
+
+        //UNIFNISHED
+        int retrieveByKeyAll(char *key_tosearch, tree & foundSongs);
+
+        //Displays all found/matching artists
         int displayByKey(char * key_tosearch);
-        //removeArtist
-        //displayByKey
+
+        //Removes all artists
+        int removeArtist(char * key);
+        
         //get_height
         //is_efficient
+
     private:
         tNode * root;
+        
+
+        //for finding the in order successor
         int ios(tNode * tree, tNode * returnVal);
-        int retrieveByKey(tNode * root, char *, song & foundval); //recursive function
+        
+        //UNIFINISHED 
+        int retrieveByKeyAll(tNode *root, char *, tree & foundSongs);
+        
+        //The recursive call for displayByKey
+        int displayByKey(tNode * root, char * searchKey);
+        
+        //int retrieveByKey(tNode * root, char *, song & foundval); //recursive function
+        int retrieveByKey(tNode *root, char *, song & song);
+       
         int displayAll(tNode *& root); //needs to print by artist name
         int insert(tNode *& root, song & song_toadd);
         int removeAll(); //removes everything from the tree
