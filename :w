@@ -16,11 +16,6 @@ tree::~tree()
     this->removeAll();
 }
 
-//int tree::removeArtist(char * key) //passing bool as a true bc true==left
-//{
-// return removeArtist(root->right, key, false);
-//}
-
 //this is a wrapper function?? (plualizes it?)
 int tree::removeArtist(char * key)
 {
@@ -30,81 +25,70 @@ int tree::removeArtist(char * key)
     return 1;
 }
 
-//a single removal, pre-order style
+//a single removal
 int tree::removeArtist(tNode *& root, char * key, bool LR)
 {
-    if(!root)   //base case
+    if(!root)
     {
         return 0;
     }
-    int isMatching = strcmp(root->songData->artist, key); //wher does it go
-    if(isMatching == 0 ) //if we have a match
+    if(strcmp(root->songData->artist, key) == 0 )
     {
-        if(!root->left && !root->right) //a leaf/no children
+        if(!root->left && !root->right) //a leaf
         {
             delete root;
             root = NULL;
         }
-        //IF we're not @ the og stackframe
-        else if(this->root != root && LR) //if we came from the left (if LR is true == left) //but what about the first run?
+        else if(LR) //if we came from the left
         {
-            if(!root->right && root->left) //1 child (if we ONLY have left)
+            if(!root->right && root->left) //1 child (if we do not have a right)
             {
                 tNode * hold;
                 hold = root->left;
                 delete root;
                 root = hold;
-                return 1;
             }
-            //only ONLY the right
-            else if(root->right)  //we might need t account for the third one
+            else if(root->right) //comibning the right and left child into 1ish caseish
             {
                 tNode * ios = NULL; 
                 tNode * ios_parent = NULL; //the parent OR ITSELF
                 iosParent(root , ios_parent);
-                if(!ios_parent->left) //if there isn't a smaller val than ios' parent
+                if(!ios_parent->left) //if there isn't a left
                 {
-                    ios = ios_parent; //ios_parent is in fact the righful ios
+                    ios = ios_parent;
                 }
                 else 
                 {
-                    ios = ios_parent->left; //ios_parent has a smaller value which ios ought to be
+                    ios = ios_parent->left;
                 }
                 //deletion happens ehre 
-                ios->left = root->left;         //assign ios' left child to the left child of the remove target 
-                ios->right = root->right;       //assign ios' right child to the right child of the remove target
-                root = ios->right;              //to reconnecting tree
-                delete ios;                     
-                ios = NULL;
-                //ios_parent->left = NULL;        //Just in case if ios still has a parent
-                return 1;
+                ios->left = root->left;
+                ios->right = root->right;
+                delete root; 
+                root = ios;
+                ios_parent->left = NULL; //if we assign null to null 
             }
-            //else
-            //{}
-            //if 2 children
-            //ios stuff of that subtree and replace the one we're deleting
         }
-        //else if we came from the right...
-        else if (!LR) //will become else if(!LR) after the last cond is put in
+        else //the right subtree
         {
-            if(root->right && !root->left) //1 child ONLY right
+            if(root->right && !root->left) //right child no left
             {
                 tNode * hold;
                 hold = root->right;
                 delete root;
                 root = hold;
-                //return 1
 
             }
-            else if(root->left)  //if ONLY left
+            else if(root->left) //if there is a left
             {
                 //if we have a tree w/ left child
                 //L child = new replaceme
                 //hold right R child
+                //this section is not done
                 tNode * ios = NULL; 
                 tNode * ios_parent = NULL; //the parent OR ITSELF
                 iosParent(root , ios_parent);
-                if(!ios_parent->right) //if there isn't a bigger val than ios' parent
+                if(!ios_parent->right) //if there isn't a right
                 {
                     ios = ios_parent;
                 }
@@ -112,7 +96,7 @@ int tree::removeArtist(tNode *& root, char * key, bool LR)
                 {
                     ios = ios_parent->right;
                 }
-                
+
                 //deletion happens ehre needs to be moddded for right
                 ios->right = root->right;
                 ios->left = root->left;
@@ -121,19 +105,22 @@ int tree::removeArtist(tNode *& root, char * key, bool LR)
                 ios_parent->right = NULL; //if we assign null to null 
             }
         }
-        //else is needed here
 
     }
-    else if(isMatching > 0) //if artist > key, that means we need to look for smaller stuff
-    {
-       return removeArtist(root->left, key, true); //true == left
-    }
-    else //if key > artist, we need to look for a larger value
-    {
-        return removeArtist(root->right,key,false);
-    }
-    return 1; //ughd
+    //right child no left is going to be painful
+
+    //  else                //2 children
+    // {
+    //if the right child has no left
+    //else go through the 
+    // }
 }
+
+int tree::removeArtist(tNode root, key, true); //passing bool as a true bc true==left
+
+return removeArtist(root->right, key, false);
+}
+
 
 //recursive call, returns the # of nodes
 int tree::removeAll(tNode *& root)

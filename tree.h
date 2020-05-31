@@ -54,9 +54,10 @@ class tree
         tNode * root;
 
         //for finding the in order successor
-        int ios(tNode * tree, tNode * returnVal);
+        int ios(tNode * tree, tNode *& returnVal);
+        int iosParent(tNode* tree, tNode *& returnVal);
 
-        int removeArtist(tNode *& root, char * key);
+        int removeArtist(tNode *& root, char * key, bool LR);
         
         //UNIFINISHED 
         int retrieveByKeyAll(tNode *root, char *, tree & foundSongs);

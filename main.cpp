@@ -12,25 +12,23 @@ int removeByArtist(tree & songTree);
 int main() 
 {
     tree niceTree;
-    int size = 1; //still has limitations
+    int size = 4; //still has limitations oh no waller, Fats
     song ** songs = new song *[size];
     niceTree.readFile(songs, size); //i think we're hardcoding the txtfile address
 
     niceTree.displayAll();
-  
     //makeSong(niceTree); 
-    
- //   niceTree.displayAll();
-//    retrieve(niceTree);
-  //  displayFoundKey(niceTree);
+    //niceTree.displayAll();
+    //retrieve(niceTree);
+    //displayFoundKey(niceTree);
     removeByArtist(niceTree); 
-   niceTree.displayAll(); 
+    niceTree.displayAll(); 
     return 1;
 }
 
 int removeByArtist(tree & songTree)
 {
-   char to_delete[20]; 
+    char to_delete[20]; 
     cout << "Remove artist" << endl;
     cout << "Enter artist to remove" << endl;
     cin.get(to_delete, 100, '\n');
@@ -69,7 +67,7 @@ int retrieve(tree & songTree)
     bool done = false;
     do
     {
-       // songTree.displayAll();
+        // songTree.displayAll();
 
         song foundval; 
         char key_tosearch[20];
