@@ -46,13 +46,17 @@ class tree
 
         //Removes all artists UNIFINISHED
         int removeArtist(char * key);
-        
+                
         //get_height
+        int getHeight(); 
+
         //is_efficient
+        int isEfficient();        
 
     private:
         tNode * root;
-
+    
+        int getHeight(tNode * root);
         //for finding the in order successor
         int ios(tNode * tree, tNode *& returnVal);
         int iosParent(tNode* tree, tNode *& returnVal);

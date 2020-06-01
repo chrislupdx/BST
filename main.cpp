@@ -12,17 +12,19 @@ int removeByArtist(tree & songTree);
 int main() 
 {
     tree niceTree;
-    int size = 4; //still has limitations oh no waller, Fats
+    int size = 30; //still has limitations oh no waller, Fats
     song ** songs = new song *[size];
     niceTree.readFile(songs, size); //i think we're hardcoding the txtfile address
 
     niceTree.displayAll();
-    //makeSong(niceTree); 
-    //niceTree.displayAll();
-    //retrieve(niceTree);
-    //displayFoundKey(niceTree);
+    makeSong(niceTree); 
+    niceTree.displayAll();
+    retrieve(niceTree);
+    displayFoundKey(niceTree);
     removeByArtist(niceTree); 
-    niceTree.displayAll(); 
+    cout << "height is " << niceTree.getHeight() << endl;
+    
+//    niceTree.displayAll();
     return 1;
 }
 
