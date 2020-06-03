@@ -2,25 +2,39 @@
 //Project 4
 //Table.cpp
 //This is the implemtation of the .cpp for the table.cpp
-
 #include "tree.h"
 using namespace std;
 
+//This is the default constructor
 tree::tree()
 {
     root = NULL; 
 }
 
+//This is the default destructor, it relies on removeAll
 tree::~tree()
 {
     this->removeAll();
 }
 
+//If the tree is efficient, it returns 1 if true, 0 if false
 int tree::isEfficient()
 {
-    return 1;
+    int Lheight = getHeight(root->left);
+    int Rheight = getHeight(root->right);
+
+    int difference = abs(Lheight - Rheight);
+    if(difference > 1)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
+//getHeight returns the tree's height as an int val
 int tree::getHeight(tNode * root)
 {
     if(!root) return 0;
@@ -30,7 +44,7 @@ int tree::getHeight(tNode * root)
     return height;
 }
 
-//The wrapper function
+//The wrapper function for the function above
 int tree::getHeight()
 {
     if(!root) return 0;
@@ -38,24 +52,23 @@ int tree::getHeight()
     return getHeight(root);
 }
 
-//this is a wrapper function?? (plualizes it?)
+//This is the wrapper function for removing all artists based on input searchKey
 int tree::removeArtist(char * key)
 {
-    //where do we call it to for repetition
     if(!root) return 0;
     bool LR;
     removeArtist(root, key, LR);
     return 1;
 }
 
-//a single removal, pre-order style
+//pre-order style removal based on key
 int tree::removeArtist(tNode *& root, char * key, bool LR)
 {
     if(!root)   //base case
     {
         return 0;
     }
-    int isMatching = strcmp(root->songData->artist, key); //wher does it go
+    int isMatching = strcmp(root->songData->artist, key);
     if(isMatching == 0 ) //if we have a match
     {
         if(!root->left && !root->right) //a leaf/no children
@@ -63,24 +76,21 @@ int tree::removeArtist(tNode *& root, char * key, bool LR)
             delete root;
             root = NULL;
         }
-        //(if this is the 1st stackframe/og root (delete case needs to be written)
-        //IF we're not @ the og stackframe
         else 
-            //else if(this->root != root && LR) //if we came from the left (if LR is true == left) //but what about the first run?
         {
             if(!root->right && root->left) //1 child (if we ONLY have left)
             {
                 tNode * hold = root->left;
                 delete root;
                 root = hold;
-                return 1;
+                return removeArtist(root, key, true);
             }
             else if(root->right && !root->left)  //we might need t account for the third one
             {
-                tNode * hold = root->left;
+                tNode * hold = root->right;
                 delete root;
                 root = hold;
-                return 1;
+                return removeArtist(root, key, false);
             }
             else //if 2 children, ios invocation
             {
@@ -104,46 +114,6 @@ int tree::removeArtist(tNode *& root, char * key, bool LR)
                 removeArtist(root, key, true);
             }
         }
-        //else if (this->root != root && !LR) //we came from the right
-        //{
-        //    if(root->right && !root->left) //1 child ONLY right
-        //    {
-        //        tNode * hold = root->right;
-        //        delete root;
-        //        root = hold;
-        //        return 1;
-        //    }
-        //    else if(root->left && !root->right) //1 child ONLY left
-        //    {
-        //        tNode * hold = root->right;
-        //        delete root;
-        //        root = hold;
-        //        return 1;
-        //    }
-        //    else        //if 2 children
-        //    {
-        //        tNode * ios = NULL; 
-        //        tNode * ios_parent = NULL; //the parent OR ITSELF
-        //        iosParent(root , ios_parent);
-        //        if(!ios_parent->right) //if there isn't a bigger val than ios' parent
-        //        {
-        //            ios = ios_parent;
-        //        }
-        //        else 
-        //        {
-        //            ios = ios_parent->right;
-        //        }
-        //        //this one needs <3 and thought
-        //        ios->right = root->right;
-        //        ios->left = root->left;
-        //        root = ios->right; //not sure if this needs to be left lets checkA
-        //        delete ios;
-        //        ios = NULL; 
-        //        //ios_parent->right = NULL; //if we assign null to null 
-        //        removeArtist(root, key, false);
-        //    }
-        //}
-        //else is needed here
     }
     else if(isMatching > 0) //if artist > key, that means we need to look for smaller stuff
     {
@@ -153,7 +123,7 @@ int tree::removeArtist(tNode *& root, char * key, bool LR)
     {
         return removeArtist(root->right,key,false);
     }
-    return 1; //ughd
+    return 1;
 }
 
 //recursive call, returns the # of nodes
@@ -218,7 +188,7 @@ int tree::insert(song & song_toadd)
     return 1;
 }
 
-//we're inserting songs, and keying them by song title
+//we're inserting songs, and keying them by artist name
 int tree::insert(tNode *& root, song & song_toadd) 
 {
     if(!root)
@@ -237,6 +207,7 @@ int tree::insert(tNode *& root, song & song_toadd)
     } 
 }
 
+//The wrapper function for displayAll
 int tree::displayAll()
 {
     //std::cout << "displayall" << std::endl;
@@ -245,9 +216,7 @@ int tree::displayAll()
     return 1;
 }
 
-
 //having some troubl with bigger vals:q
-//
 int tree::displayAll(tNode *& root)  
 {
     if(!root) return 0;
@@ -258,6 +227,7 @@ int tree::displayAll(tNode *& root)
     return count + displayAll(root->right);
 }
 
+//The wrapper function for retrieving by key
 int tree::retrieveByKey(char * key_tosearch, song & foundval )
 {
     return retrieveByKey(root, key_tosearch, foundval);
@@ -269,9 +239,9 @@ int tree::retrieveByKey(tNode * root, char * key_tosearch, song & foundval)
     if(!root) return 0;
 
     int isMatching = strcmp(root->songData->artist, key_tosearch);
-    if(isMatching == 0) //if we find a match, append it and keep searching?
+    if(isMatching == 0) //if we find a match
     {
-        foundval.copySong(*root->songData); //not sure if doneA
+        foundval.copySong(*root->songData);
         return 1;
     }
     else if(isMatching > 0)
@@ -284,34 +254,6 @@ int tree::retrieveByKey(tNode * root, char * key_tosearch, song & foundval)
     }
 }
 
-//BELOW IS A MOD FOR TREE INSERT INSTEAD OF SONG
-int tree::retrieveByKeyAll(char * key_tosearch, tree & foundSongs )
-{
-    return retrieveByKeyAll(root, key_tosearch, foundSongs);
-}
-
-//BELOW IS A UNIFINISEHD MOD FOR TREE INSERT INSTEAD OF SONG
-int tree::retrieveByKeyAll(tNode * root, char * key_tosearch, tree & foundSongs)
-{
-    if(!root) return 0;
-
-    int isMatching = strcmp(root->songData->artist, key_tosearch);
-    if(isMatching == 0) //if we find a match, append it and keep searching?
-    {
-        //foundval.copySong(*root->songData); //not sure if doneA
-        return 1;
-    }
-    else if(isMatching > 0)
-    {
-        return retrieveByKeyAll(root->left, key_tosearch, foundSongs);
-    }
-    else
-    {
-        return retrieveByKeyAll(root->right, key_tosearch, foundSongs);
-    }
-}
-
-//write a retriveallmatches 
 //how do we do it return an array of values
 int tree::displayByKey(char * key_tosearch)
 {
@@ -319,16 +261,16 @@ int tree::displayByKey(char * key_tosearch)
     return 1;    
 }
 
-//recursive
+//recursive call for displaybykey
 int tree::displayByKey(tNode * root, char * searchKey)
 {
     if(!root) return 0; //if leaf
 
     int count = displayByKey(root->left, searchKey);
     int isMatching = strcmp(root->songData->artist, searchKey);
-    if(isMatching == 0)
+    if(isMatching == 0) //if matching
     {
-        root->songData->displayInfo();
+        root->songData->displayInfo(); //calls song's built-in
     }
     return count + displayByKey(root->right, searchKey);
 }

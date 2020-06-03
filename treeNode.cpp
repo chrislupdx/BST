@@ -1,10 +1,12 @@
-//Chris Luj
+//Chris Lu
 //Project 4
 //Treenode.cpp
-//This is the implementatio nfo the .h file for the tablenode struct
+//This is the implementation of the .h file for the tablenode struct
+//which is stored at tree.h
 
 #include "tree.h"
 
+//Default constructor
 tNode::tNode()
 {
     songData = nullptr;
@@ -12,6 +14,7 @@ tNode::tNode()
     right = nullptr; 
 } 
 
+//Parameterized constructor that calls song's copySong function
 tNode::tNode(song & songToadd)
 {
     left = NULL;
@@ -21,6 +24,7 @@ tNode::tNode(song & songToadd)
     songData->copySong(songToadd);
 }
 
+//Destructor
 tNode::~tNode()
 {
     if(songData)

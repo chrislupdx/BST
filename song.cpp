@@ -28,7 +28,7 @@ song::song(char * artist_toadd, char * title_toadd, char * album_toadd, char * k
     key2 = nullptr;
     key3 = nullptr;
     description = nullptr;
-    
+
     this->artist = new char[strlen(artist_toadd) + 1];  //this->artist == artist here
     strcpy(this->artist, artist_toadd);
 
@@ -57,13 +57,13 @@ song::~song()
     if(artist)
     {
         delete [] artist;
-        artist = NULL; //curly braces pls
+        artist = NULL; 
     } 
-     if(songN)
-     { 
-         delete [] songN;
-         songN = NULL;
-     }    
+    if(songN)
+    { 
+        delete [] songN;
+        songN = NULL;
+    }    
     if(album)
     {
         delete [] album;
@@ -84,11 +84,11 @@ song::~song()
         delete [] key3;
         key3 = NULL;
     } 
-        if(description)
-        {
+    if(description)
+    {
         delete [] description;
         description = NULL;
-        }
+    }
 }
 
 //This function prints the song's data members
@@ -131,6 +131,7 @@ int song::copySong(song & songToadd)
     return 1;
 }
 
+//compareArtist returns 0 if artist and key matches, 1 if not a match
 int song::compareArtist(song *& song_tocheck)
 {
     if(strcmp(artist, song_tocheck->artist) == 0)
@@ -140,7 +141,7 @@ int song::compareArtist(song *& song_tocheck)
     return 0;
 }
 
-//copy constructor!!!
+//A copy constructor
 song::song(song & songToadd)
 {
     song(songToadd.artist, songToadd.songN, songToadd.album, songToadd.key1, songToadd.key2, songToadd.key3, songToadd.description);

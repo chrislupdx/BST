@@ -1,12 +1,14 @@
+//prog4
+//this is the implementation of the .h file for the song struct
+//Chris Lu
+//Song.h
+//This song file supports an artist name,
+//title of the song, title of the album,
+//list of three keywords, and a description
+
 #include <cstring> 
 #include <cctype>
 #include <iostream>
-
-//This song file supports an artist name,
-//title of the song, title of the ablum,
-//list of three keywords, and a description
-
-//oooh should song be a class or struct
 
 struct song
 {

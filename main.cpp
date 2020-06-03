@@ -1,30 +1,123 @@
+//Prog4
+//This is the implemntation for the interface of program 4.  
+//Chris Lu
+//main.cpp
 #include "tree.h" 
 #include <fstream>
 #include <iostream>
 using namespace std;
 
-int makeSong(tree & songTree);
-int retrieve(tree & songTree); //will this be awful to just pass by value
-int displayFoundKey(tree & songTree);
-int removeByArtist(tree & songTree);
-//getheight
-//isefficient
+int makeSong(tree & songTree); //This wrapper funtion calls 
+int retrieve(tree & songTree); //This calls tree's retrieveByKey function
+int displayFoundKey(tree & songTree); //This calls displayByKey
+int removeByArtist(tree & songTree); //Calls remove 
+int isEfficient(tree & songTree); //Calls the efficiency function
 int main() 
 {
     tree niceTree;
-    int size = 30; //still has limitations oh no waller, Fats
+    int size = 100; //we are controlling the outset size of the tree here
     song ** songs = new song *[size];
-    niceTree.readFile(songs, size); //i think we're hardcoding the txtfile address
+    niceTree.readFile(songs, size); //i think we are hardcoding the file loaction
+
+    cout << "Program 4: Playlist" << endl;
 
     niceTree.displayAll();
-    makeSong(niceTree); 
-    niceTree.displayAll();
-    retrieve(niceTree);
-    displayFoundKey(niceTree);
-    removeByArtist(niceTree); 
     cout << "height is " << niceTree.getHeight() << endl;
-    
-//    niceTree.displayAll();
+    isEfficient(niceTree);
+
+    cout << "Choices: " << endl;
+    cout << "1. Delete an artist" << endl;
+    cout << "2. Search for a title" << endl;
+    cout << "3. Retrieve a song" << endl;
+    cout << "4. Add a song" << endl;
+    cout << "0 to exit" << endl;
+
+    int option;
+    cin >> option;
+    cin.ignore(100, '\n');
+    do
+    {
+        if(option == 1)
+        {
+            cout << "Deleting artist: " << endl;
+            removeByArtist(niceTree); 
+            niceTree.displayAll();
+            cout << "height is " << niceTree.getHeight() << endl;
+            isEfficient(niceTree);
+
+            cout << "Choices: " << endl;
+            cout << "1. Delete an artist" << endl;
+            cout << "2. Search for a title" << endl;
+            cout << "3. Retrieve a song" << endl;
+            cout << "4. Add a song" << endl;
+            cin >> option;
+            cin.ignore(100, '\n');
+        }
+        if(option == 2)
+        {
+            cout << "Seaching by keyword: " << endl;
+            displayFoundKey(niceTree); 
+            cout << endl;
+
+            cout << "Choices: " << endl;
+            cout << "1. Delete an artist" << endl;
+            cout << "2. Search for a title" << endl;
+            cout << "3. Retrieve a song" << endl;
+            cout << "4. Add a song" << endl;
+            cout << "0 to exit" << endl;
+            cin >> option;
+            cin.ignore(100, '\n');
+        }
+        if(option == 3)
+        {
+            cout <<"Retrieve song: " << endl;
+            niceTree.displayAll();       
+            retrieve(niceTree);
+
+            cout << "Choices: " << endl;
+            cout << "1. Delete an artist" << endl;
+            cout << "2. Search for a title" << endl;
+            cout << "3. Retrieve a song" << endl;
+            cout << "4. Add a song" << endl;
+            cout << "0 to exit" << endl;
+            cin >> option;
+            cin.ignore(100, '\n');
+
+        }
+        if(option == 4)
+        {
+            cout << "Add a song: " << endl;
+            makeSong(niceTree);
+
+            cout << "Choices: " << endl;
+            cout << "1. Delete an artist" << endl;
+            cout << "2. Search for a title" << endl;
+            cout << "3. Retrieve a song" << endl;
+            cout << "4. Add a song" << endl;
+            cout << "0 to exit" << endl;
+            cin >> option;
+            cin.ignore(100,'\n');
+        }
+
+    }
+    while(option != 0);
+
+    niceTree.displayAll();
+    return 1;
+}
+
+int isEfficient(tree & songTree)
+{
+    cout << "is efficient?" << endl;
+    if(songTree.isEfficient())
+    {
+        cout << "Yes." << endl;
+    }
+    else
+    {
+        cout << "No." << endl;
+    }
+
     return 1;
 }
 
@@ -69,8 +162,6 @@ int retrieve(tree & songTree)
     bool done = false;
     do
     {
-        // songTree.displayAll();
-
         song foundval; 
         char key_tosearch[20];
         cout << "Retrieve" << endl;
@@ -80,8 +171,8 @@ int retrieve(tree & songTree)
 
         songTree.retrieveByKey(key_tosearch, foundval);
 
-        cout << "Found tracks: " << endl; //make this plural?
-        foundval.displayInfo(); //this is for song
+        cout << "Found tracks: " << endl;
+        foundval.displayInfo();
 
         cout << "retrieve another? y/n" << endl;
         char answer;
@@ -139,7 +230,7 @@ int makeSong(tree & songTree)
 
         song songtoadd(artist_toadd, title_toadd, album_toadd, key1_toadd, key2_toadd, key3_toadd, description_toadd);
 
-        songTree.insert(songtoadd);  //we're indexing by song name
+        songTree.insert(songtoadd); 
 
         cout << "Add another song? y/n" << endl;
         char answer;
@@ -151,6 +242,5 @@ int makeSong(tree & songTree)
         }
     }
     while(done == false);
-
     return 1;
 }
