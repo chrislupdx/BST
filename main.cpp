@@ -15,7 +15,7 @@ int isEfficient(tree & songTree); //Calls the efficiency function
 int main() 
 {
     tree niceTree;
-    int size = 100; //we are controlling the outset size of the tree here
+    int size = 5; //we are controlling the outset size of the tree here
     song ** songs = new song *[size];
     niceTree.readFile(songs, size); //i think we are hardcoding the file loaction
 
